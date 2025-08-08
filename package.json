@@ -4,7 +4,7 @@
   "scripts": {
     "build": "next build",
     "cf:build": "npx @cloudflare/next-on-pages@latest build",
-    "cfbuild": "npx @cloudflare/next-on-pages@latest build",
+    "cfbuild": "npx @cloudflare/next-on-pages@latest build --",
     "start": "next start"
   },
   "dependencies": {
