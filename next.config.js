@@ -2,11 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // НИКАКОГО output: 'export' — иначе ломает i18n/SSR
   i18n: {
     locales: ['az', 'ru', 'en'],
-    defaultLocale: 'ru',
-    localeDetection: true
+    defaultLocale: 'ru'
+    // localeDetection убран — Next.js сам включит по умолчанию
   },
 
   images: {
