@@ -1,5 +1,5 @@
 name = "abr-marketing"
 compatibility_date = "2024-10-01"
 
-[build]
-command = "npx @cloudflare/next-on-pages@latest build"
+# Для Pages нужно явно указать куда положен статик после next-on-pages
+pages_build_output_dir = ".vercel/output/static"

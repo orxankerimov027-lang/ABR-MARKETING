@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "next build",
-    "cf:build": "npx @cloudflare/next-on-pages@latest build",
-    "cfbuild": "npx @cloudflare/next-on-pages@latest build --",
+    "cf:build": "node scripts/build-cf.mjs",
+    "cfbuild": "node scripts/build-cf.mjs",
     "start": "next start"
   },
   "dependencies": {
