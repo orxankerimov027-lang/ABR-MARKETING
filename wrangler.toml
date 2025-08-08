@@ -1,5 +1,6 @@
 name = "abr-marketing"
 compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
 
-# Для Pages нужно указать куда next-on-pages кладёт статику
+# Куда next-on-pages складывает статику
 pages_build_output_dir = ".vercel/output/static"

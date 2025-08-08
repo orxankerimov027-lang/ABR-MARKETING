@@ -1,9 +1,9 @@
 // scripts/build-cf.mjs
-import { execSync } from 'node:child_process';
+import { execSync } from "node:child_process";
 
 try {
-  // ВАЖНО: без "build" — CLI ожидает 0 аргументов на Pages
-  execSync('npx @cloudflare/next-on-pages@latest', { stdio: 'inherit' });
+  // ВАЖНО: без подкоманды "build" — Pages передаёт свои аргументы, CLI ждёт 0 аргументов
+  execSync("npx @cloudflare/next-on-pages@latest", { stdio: "inherit" });
 } catch (e) {
   process.exit(e.status || 1);
 }

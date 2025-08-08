@@ -1,22 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
 
-  // ✅ Мультиязычие (совместимо с SSR/Cloudflare Pages)
+  // НИКАКОГО output: 'export' — иначе ломает i18n/SSR
   i18n: {
     locales: ['az', 'ru', 'en'],
-    defaultLocale: 'az',
-    localeDetection: false,
+    defaultLocale: 'ru',
+    localeDetection: true
   },
 
-  // Не валим сборку из‑за TS-ошибок на этапе деплоя
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
-  // ❌ Убрано: experimental.buildCache (неподдерживаемый ключ)
-  // ❌ Убрано: output: 'export' (конфликтовало с i18n)
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: '**' }],
+    unoptimized: false
+  }
 };
 
 module.exports = nextConfig;
