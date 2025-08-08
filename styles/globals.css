@@ -1,8 +1,59 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+/* === Hero Section === */
+.hero {
+  background: linear-gradient(90deg, #f8e1ff, #fff8e1);
+  text-align: center;
+  padding: 3rem 1rem;
 }
-.container {
-  padding: 40px;
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.hero-content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: #b96df2;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.hero-button:hover {
+  background: #9a4fd0;
+}
+
+/* === Image styles === */
+.hero-image-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
 }
