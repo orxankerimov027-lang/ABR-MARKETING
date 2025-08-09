@@ -29,7 +29,7 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="pt-24 sm:pt-28 pb-12 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
+        <section className="pt-20 md:pt-28 pb-12 md:pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between max-w-6xl mx-auto">
             <div className="md:w-1/2 text-center md:text-left md:pt-10">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 md:whitespace-nowrap">
@@ -45,6 +45,7 @@ export default function Home() {
                 Оставить заявку
               </a>
             </div>
+
             <div className="md:w-1/2 mt-6 sm:mt-8 md:mt-0 rounded-xl overflow-hidden shadow-lg">
               <img
                 src="https://i.ibb.co/dZDh2bf/image.png"
