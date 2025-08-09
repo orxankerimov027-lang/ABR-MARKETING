@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
@@ -142,7 +144,7 @@ export default function ContactPage() {
           marginTop: 24,
         }}
       >
-        {/* Форма (слева) */}
+        {/* Левая колонка — форма */}
         <section
           style={{
             border: '1px solid #e5e7eb',
@@ -151,6 +153,7 @@ export default function ContactPage() {
           }}
         >
           <form onSubmit={onSubmit} style={{ display: 'grid', gap: 16 }}>
+            {/* Имя + Email */}
             <div style={{ display: 'grid', gap: 16, gridTemplateColumns: '1fr' }}>
               <div>
                 <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
@@ -193,6 +196,7 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Телефон + Услуга */}
             <div style={{ display: 'grid', gap: 16, gridTemplateColumns: '1fr' }}>
               <div>
                 <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
@@ -239,6 +243,7 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Бюджет */}
             <div>
               <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
                 Бюджет (AZN)
@@ -265,6 +270,7 @@ export default function ContactPage() {
               </select>
             </div>
 
+            {/* Сообщение */}
             <div>
               <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
                 Сообщение *
@@ -312,7 +318,7 @@ export default function ContactPage() {
           </form>
         </section>
 
-        {/* Правая колонка (быстрая связь) */}
+        {/* Правая колонка */}
         <aside
           style={{
             display: 'grid',
@@ -335,24 +341,20 @@ export default function ContactPage() {
                 <Link href="tel:+994102151508" style={{ color: '#2563eb', textDecoration: 'none' }}>
                   +994 10 215 15 08
                 </Link>
-                <div style={{ color: '#6b7280' }}>Звоните в рабочее время</div>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Email</div>
                 <Link href="mailto:info@aimarket.az" style={{ color: '#2563eb', textDecoration: 'none' }}>
                   info@aimarket.az
                 </Link>
-                <div style={{ color: '#6b7280' }}>Отвечаем в течение 24 часов</div>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Адрес</div>
                 <div>Asug Ali 4, Şəhər Bağları kompleksi, Баку</div>
-                <div style={{ color: '#6b7280' }}>Можем встретиться лично</div>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Режим работы</div>
                 <div>Пн–Пт: 9:00–18:00</div>
-                <div style={{ color: '#6b7280' }}>По выходным — по договоренности</div>
               </li>
             </ul>
           </div>
@@ -365,9 +367,6 @@ export default function ContactPage() {
             }}
           >
             <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Быстрая связь</h3>
-            <p style={{ color: '#6b7280', fontSize: 14, marginTop: 8 }}>
-              WhatsApp и Instagram — отвечаем 24/7.
-            </p>
             <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
               <Link
                 href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
@@ -380,7 +379,7 @@ export default function ContactPage() {
                   textDecoration: 'none',
                 }}
               >
-                Написать в WhatsApp
+                WhatsApp
               </Link>
               <Link
                 href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK || '#'}
@@ -393,7 +392,7 @@ export default function ContactPage() {
                   textDecoration: 'none',
                 }}
               >
-                Написать в Instagram
+                Instagram
               </Link>
             </div>
           </div>

@@ -1,79 +1,52 @@
-// Работает на Cloudflare Pages (Workers) благодаря nodejs_compat; Node API не используем.
+export const runtime = 'edge';
+
+import { Resend } from 'resend';
+
 export const config = {
   api: {
-    bodyParser: false, // мы читаем FormData вручную
+    bodyParser: false,
   },
 };
 
-export default async function handler(req: any, res: any) {
+// Инициализация Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    res.status(405).json({ ok: false, error: 'Method Not Allowed' });
-    return;
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    // Превращаем ReadableStream в FormData
-    // В Pages/Workers у req.body — ReadableStream; в Node — уже парсится, но мы унифицируем через Request
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    const request = new Request(url.toString(), {
-      method: req.method,
-      headers: req.headers as any,
-      body: req, // прокидываем поток
+    const formData = await req.formData();
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    const service = formData.get('service');
+    const budget = formData.get('budget');
+    const message = formData.get('message');
+
+    console.log('📩 Получена заявка:', { name, email, phone, service, budget, message });
+
+    // Отправка письма
+    await resend.emails.send({
+      from: process.env.MAIL_FROM || 'no-reply@aimarket.az',
+      to: 'info@aimarket.az',
+      subject: 'Новая заявка с сайта AIMarket.az',
+      html: `
+        <h2>Новая заявка с формы</h2>
+        <p><strong>Имя:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Телефон:</strong> ${phone}</p>
+        <p><strong>Услуга:</strong> ${service}</p>
+        <p><strong>Бюджет:</strong> ${budget}</p>
+        <p><strong>Сообщение:</strong></p>
+        <p>${message}</p>
+      `,
     });
 
-    const form = await (request as any).formData();
-    const data = Object.fromEntries(form.entries()) as Record<string, string>;
-
-    const to = 'info@aimarket.az';
-    const from = process.env.MAIL_FROM || 'no-reply@aimarket.az';
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-
-    const html = `
-      <h2>Новая заявка с сайта AI Market AZ</h2>
-      <p><b>Имя:</b> ${escapeHTML(data.name || '')}</p>
-      <p><b>Email:</b> ${escapeHTML(data.email || '')}</p>
-      <p><b>Телефон:</b> ${escapeHTML(data.phone || '')}</p>
-      <p><b>Услуга:</b> ${escapeHTML(data.service || '')}</p>
-      <p><b>Бюджет:</b> ${escapeHTML(data.budget || '')}</p>
-      <p><b>Сообщение:</b><br/>${escapeHTML(data.message || '').replace(/\n/g, '<br/>')}</p>
-    `;
-
-    if (!RESEND_API_KEY) {
-      res.status(500).json({ ok: false, error: 'RESEND_API_KEY not set' });
-      return;
-    }
-
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from,
-        to,
-        subject: 'Новая заявка — AI Market AZ',
-        html,
-      }),
-    });
-
-    if (!r.ok) {
-      const text = await r.text();
-      res.status(500).json({ ok: false, error: text });
-      return;
-    }
-
-    res.status(200).json({ ok: true });
-  } catch (e: any) {
-    res.status(500).json({ ok: false, error: e?.message || 'Unexpected error' });
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.error('❌ Ошибка отправки письма:', err);
+    return res.status(500).json({ error: 'Ошибка отправки' });
   }
-}
-
-function escapeHTML(s: string) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
 }
