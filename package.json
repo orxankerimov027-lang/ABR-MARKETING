@@ -2,6 +2,7 @@
   "name": "abr-marketing",
   "version": "1.0.0",
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "cf:build": "node scripts/build-cf.mjs",
     "cfbuild": "node scripts/build-cf.mjs",

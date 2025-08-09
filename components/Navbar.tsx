@@ -10,23 +10,39 @@ export default function Navbar() {
     <nav style={{ padding: '20px', backgroundColor: '#222', color: '#fff' }}>
       <ul style={{ display: 'flex', gap: '20px', listStyle: 'none', margin: 0, padding: 0 }}>
         <li>
-          <Link href="/" locale={locale}>
-            <a style={{ color: router.pathname === '/' ? '#0af' : '#fff' }}>Home</a>
+          <Link
+            href="/"
+            locale={locale}
+            style={{ color: router.pathname === '/' ? '#0af' : '#fff' }}
+          >
+            Home
           </Link>
         </li>
         <li>
-          <Link href="/services" locale={locale}>
-            <a style={{ color: router.pathname === '/services' ? '#0af' : '#fff' }}>Services</a>
+          <Link
+            href="/services"
+            locale={locale}
+            style={{ color: router.pathname === '/services' ? '#0af' : '#fff' }}
+          >
+            Services
           </Link>
         </li>
         <li>
-          <Link href="/portfolio" locale={locale}>
-            <a style={{ color: router.pathname === '/portfolio' ? '#0af' : '#fff' }}>Portfolio</a>
+          <Link
+            href="/portfolio"
+            locale={locale}
+            style={{ color: router.pathname === '/portfolio' ? '#0af' : '#fff' }}
+          >
+            Portfolio
           </Link>
         </li>
         <li>
-          <Link href="/models" locale={locale}>
-            <a style={{ color: router.pathname === '/models' ? '#0af' : '#fff' }}>Models</a>
+          <Link
+            href="/models"
+            locale={locale}
+            style={{ color: router.pathname === '/models' ? '#0af' : '#fff' }}
+          >
+            Models
           </Link>
         </li>
       </ul>

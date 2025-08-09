@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
+// Link не нужен, т.к. на этой странице только внешние ссылки
+// import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
@@ -95,9 +96,10 @@ export default function ContactPage() {
               margin: '16px auto 0',
             }}
           >
-            <Link
+            <a
               href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
               target="_blank"
+              rel="noopener noreferrer"
               style={{
                 border: '1px solid #e5e7eb',
                 borderRadius: 12,
@@ -107,10 +109,11 @@ export default function ContactPage() {
               }}
             >
               Открыть WhatsApp
-            </Link>
-            <Link
+            </a>
+            <a
               href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK || '#'}
               target="_blank"
+              rel="noopener noreferrer"
               style={{
                 border: '1px solid #e5e7eb',
                 borderRadius: 12,
@@ -120,7 +123,7 @@ export default function ContactPage() {
               }}
             >
               Открыть Instagram
-            </Link>
+            </a>
           </div>
         </section>
       </main>
@@ -336,15 +339,15 @@ export default function ContactPage() {
             <ul style={{ marginTop: 16, padding: 0, listStyle: 'none', display: 'grid', gap: 12, fontSize: 14 }}>
               <li>
                 <div style={{ fontWeight: 600 }}>Телефон</div>
-                <Link href="tel:+994102151508" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                <a href="tel:+994102151508" style={{ color: '#2563eb', textDecoration: 'none' }}>
                   +994 10 215 15 08
-                </Link>
+                </a>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Email</div>
-                <Link href="mailto:info@aimarket.az" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                <a href="mailto:info@aimarket.az" style={{ color: '#2563eb', textDecoration: 'none' }}>
                   info@aimarket.az
-                </Link>
+                </a>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Адрес</div>
@@ -366,9 +369,10 @@ export default function ContactPage() {
           >
             <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Быстрая связь</h3>
             <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
-              <Link
+              <a
                 href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
                 target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   border: '1px solid #e5e7eb',
                   borderRadius: 12,
@@ -378,10 +382,11 @@ export default function ContactPage() {
                 }}
               >
                 WhatsApp
-              </Link>
-              <Link
+              </a>
+              <a
                 href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK || '#'}
                 target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   border: '1px solid #e5e7eb',
                   borderRadius: 12,
@@ -391,7 +396,7 @@ export default function ContactPage() {
                 }}
               >
                 Instagram
-              </Link>
+              </a>
             </div>
           </div>
         </aside>
