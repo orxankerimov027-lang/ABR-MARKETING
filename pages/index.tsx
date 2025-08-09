@@ -29,13 +29,14 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="pt-20 md:pt-28 pb-12 md:pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
+        <section className="pt-16 sm:pt-20 md:pt-28 pb-10 md:pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between max-w-6xl mx-auto">
+            {/* Текст */}
             <div className="md:w-1/2 text-center md:text-left md:pt-10">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 md:whitespace-nowrap">
+              <h1 className="text-[22px] sm:text-3xl md:text-4xl font-extrabold mb-2 sm:mb-3 md:whitespace-nowrap">
                 Прокачай свой бренд с нами
               </h1>
-              <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6">
+              <p className="text-[15px] sm:text-lg md:text-xl mb-3 sm:mb-4">
                 Видео, модели, чат-боты и автоматизация — всё в одном месте
               </p>
               <a
@@ -46,11 +47,12 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="md:w-1/2 mt-6 sm:mt-8 md:mt-0 rounded-xl overflow-hidden shadow-lg">
+            {/* Картинка */}
+            <div className="md:w-1/2 mt-5 sm:mt-7 md:mt-0 rounded-xl overflow-hidden shadow-lg">
               <img
                 src="https://i.ibb.co/dZDh2bf/image.png"
                 alt="Hero"
-                className="w-full h-48 sm:h-64 md:h-80 object-cover"
+                className="w-full h-44 sm:h-60 md:h-80 object-cover"
               />
             </div>
           </div>
