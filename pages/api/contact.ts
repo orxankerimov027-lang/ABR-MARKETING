@@ -1,18 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+export const config = { runtime: 'edge' };
+
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   try {
-    const { name, email, phone, service, budget, message } = req.body || {};
+    const body = await req.json();
+    const { name, email, phone, service, budget, message } = body || {};
 
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Заполните имя, email и сообщение' });
+      return new Response(JSON.stringify({ error: 'Заполните имя, email и сообщение' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     await resend.emails.send({
@@ -30,9 +38,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       `,
     });
 
-    return res.status(200).json({ ok: true });
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err: any) {
     console.error('RESEND ERROR:', err?.message || err);
-    return res.status(500).json({ error: 'Ошибка при отправке письма' });
+    return new Response(JSON.stringify({ error: 'Ошибка при отправке письма' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
