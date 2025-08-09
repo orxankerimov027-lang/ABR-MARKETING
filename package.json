@@ -8,18 +8,19 @@
     "start": "next start"
   },
   "dependencies": {
+    "i18next": "^23.0.0",
     "next": "^14.2.31",
+    "next-i18next": "^13.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "next-i18next": "^13.0.2",
     "react-i18next": "^13.0.0",
-    "i18next": "^23.0.0"
+    "resend": "^6.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.1.3",
-    "@types/react": "^18.0.38",
-    "@types/node": "^20.4.2",
     "@cloudflare/next-on-pages": "^1.13.0",
+    "@types/node": "^20.4.2",
+    "@types/react": "^18.0.38",
+    "typescript": "^5.1.3",
     "wrangler": "^3.74.0"
   }
 }
