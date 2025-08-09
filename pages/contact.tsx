@@ -55,13 +55,27 @@ export default function ContactPage() {
     e.preventDefault();
     setSubmitting(true);
     setErr(null);
+
     try {
-      const fd = new FormData();
-      Object.entries(formData).forEach(([k, v]) => fd.append(k, v));
-      const res = await fetch('/api/contact', { method: 'POST', body: fd });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
       if (!res.ok) throw new Error('Не удалось отправить сообщение');
       setDone(true);
       (e.target as HTMLFormElement).reset();
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        budget: '',
+        message: '',
+      });
     } catch (error: any) {
       setErr(error?.message || 'Ошибка отправки');
     } finally {
@@ -336,16 +350,31 @@ export default function ContactPage() {
             <h2 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>
               Контактная информация
             </h2>
-            <ul style={{ marginTop: 16, padding: 0, listStyle: 'none', display: 'grid', gap: 12, fontSize: 14 }}>
+            <ul
+              style={{
+                marginTop: 16,
+                padding: 0,
+                listStyle: 'none',
+                display: 'grid',
+                gap: 12,
+                fontSize: 14,
+              }}
+            >
               <li>
                 <div style={{ fontWeight: 600 }}>Телефон</div>
-                <a href="tel:+994102151508" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                <a
+                  href="tel:+994102151508"
+                  style={{ color: '#2563eb', textDecoration: 'none' }}
+                >
                   +994 10 215 15 08
                 </a>
               </li>
               <li>
                 <div style={{ fontWeight: 600 }}>Email</div>
-                <a href="mailto:info@aimarket.az" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                <a
+                  href="mailto:info@aimarket.az"
+                  style={{ color: '#2563eb', textDecoration: 'none' }}
+                >
                   info@aimarket.az
                 </a>
               </li>
@@ -370,7 +399,10 @@ export default function ContactPage() {
             <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Быстрая связь</h3>
             <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
               <a
-                href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
+                href={
+                  process.env.NEXT_PUBLIC_WHATSAPP_LINK ||
+                  'https://wa.me/994102151508'
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
