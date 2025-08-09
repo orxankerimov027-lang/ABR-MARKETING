@@ -2,10 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  experimental: {
-    appDir: false, // <— принудительно отключаем App Router
-  },
-
   i18n: {
     locales: ['az', 'ru', 'en'],
     defaultLocale: 'ru'
