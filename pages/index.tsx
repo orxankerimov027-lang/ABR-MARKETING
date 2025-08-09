@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Marketing.AZ</title>
+        <title>AIMarket.AZ</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.tailwindcss.com"></script>
       </Head>
@@ -12,7 +12,7 @@ export default function Home() {
       <body className="bg-white text-gray-800 font-sans">
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-4 shadow-md bg-white fixed top-0 left-0 right-0 z-50">
-          <div className="text-2xl font-extrabold text-purple-600 tracking-wide">Marketing.AZ</div>
+          <div className="text-2xl font-extrabold text-purple-600 tracking-wide">AIMarket.AZ</div>
           <nav className="hidden md:flex space-x-10 text-lg font-semibold">
             <a href="#" className="hover:text-purple-600 transition">Главная</a>
             <a href="#services" className="hover:text-purple-600 transition">Услуги</a>
@@ -41,22 +41,26 @@ export default function Home() {
         {/* Services */}
         <section id="services" className="py-16 px-6 bg-gray-50">
           <h2 className="text-3xl font-bold text-center mb-10">Наши услуги</h2>
-          <div className="grid md:grid-cols-4 gap-6">
-            <div className="bg-white shadow p-6 rounded-lg hover:shadow-xl transition">
-              <h3 className="font-bold mb-2">Чат-боты</h3>
-              <p>Автоматизация продаж и поддержки через Instagram, WhatsApp и Telegram</p>
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="bg-white shadow-lg p-8 rounded-2xl hover:shadow-2xl transition text-center min-h-[260px] flex flex-col items-center justify-start">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 text-white mb-4">💬</div>
+              <h3 className="text-2xl font-semibold mb-2">Чат-боты</h3>
+              <p className="text-base">Автоматизация продаж и поддержки через Instagram, WhatsApp и Telegram</p>
             </div>
-            <div className="bg-white shadow p-6 rounded-lg hover:shadow-xl transition">
-              <h3 className="font-bold mb-2">Видео-контент</h3>
-              <p>Reels, TikTok, реклама и съёмки под ключ</p>
+            <div className="bg-white shadow-lg p-8 rounded-2xl hover:shadow-2xl transition text-center min-h-[260px] flex flex-col items-center justify-start">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 text-white mb-4">🎥</div>
+              <h3 className="text-2xl font-semibold mb-2">Видео-контент</h3>
+              <p className="text-base">Reels,Instagram,TikTok,Youtube, реклама и съёмки под ключ</p>
             </div>
-            <div className="bg-white shadow p-6 rounded-lg hover:shadow-xl transition">
-              <h3 className="font-bold mb-2">Модели</h3>
-              <p>Кастинги, база моделей, профессиональные съёмки</p>
+            <div className="bg-white shadow-lg p-8 rounded-2xl hover:shadow-2xl transition text-center min-h-[260px] flex flex-col items-center justify-start">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 text-white mb-4">👥</div>
+              <h3 className="text-2xl font-semibold mb-2">Модели</h3>
+              <p className="text-base">Кастинги, база моделей, профессиональные съёмки</p>
             </div>
-            <div className="bg-white shadow p-6 rounded-lg hover:shadow-xl transition">
-              <h3 className="font-bold mb-2">Реклама</h3>
-              <p>Таргет, охваты, аналитика, результат</p>
+            <div className="bg-white shadow-lg p-8 rounded-2xl hover:shadow-2xl transition text-center min-h-[260px] flex flex-col items-center justify-start">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 text-white mb-4">📢</div>
+              <h3 className="text-2xl font-semibold mb-2">Реклама</h3>
+              <p className="text-base">Таргет, охваты, аналитика, результат</p>
             </div>
           </div>
         </section>
@@ -110,7 +114,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="bg-gray-100 text-center py-6 mt-10 text-sm text-gray-600">
-          © 2025 Marketing.AZ — Все права защищены
+          © 2025 AIMarket.AZ — Все права защищены
         </footer>
       </body>
     </>
