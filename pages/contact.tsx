@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
@@ -16,80 +11,394 @@ export async function getStaticProps({ locale }: { locale: string }) {
   };
 }
 
-export default function Contact() {
+const budgetOptions = [
+  { label: '₼100 – ₼500', value: '100-500' },
+  { label: '₼500 – ₼1,000', value: '500-1000' },
+  { label: '₼1,000 – ₼5,000', value: '1000-5000' },
+  { label: '₼5,000 – ₼10,000', value: '5000-10000' },
+  { label: '₼10,000+', value: '10000+' },
+  { label: 'Обсудим отдельно', value: 'custom' },
+];
+
+const serviceOptions = [
+  'AI Чатбот',
+  'Видеопродакшн',
+  'Модельный кастинг',
+  'Комплексные услуги',
+  'Другое',
+];
+
+export default function ContactPage() {
   const { t } = useTranslation('common');
 
-  const [formData, setFormData] = useState<FormData>({
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
+    service: '',
+    budget: '',
     message: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) {
+    setFormData((s) => ({ ...s, [e.target.name]: e.target.value }));
+  }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Здесь можно добавить отправку формы на сервер (fetch, axios и т.д.)
-    setSubmitted(true);
-  };
+    setSubmitting(true);
+    setErr(null);
+    try {
+      const fd = new FormData();
+      Object.entries(formData).forEach(([k, v]) => fd.append(k, v));
+      const res = await fetch('/api/contact', { method: 'POST', body: fd });
+      if (!res.ok) throw new Error('Не удалось отправить сообщение');
+      setDone(true);
+      (e.target as HTMLFormElement).reset();
+    } catch (error: any) {
+      setErr(error?.message || 'Ошибка отправки');
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
-  if (submitted) {
+  if (done) {
     return (
-      <section style={{ padding: '40px', maxWidth: '600px', margin: '0 auto' }}>
-        <p>{t('contact_thanks', 'Спасибо! Ваше сообщение отправлено.')}</p>
-      </section>
+      <main style={{ margin: '0 auto', maxWidth: 1120, padding: '40px 16px' }}>
+        <section
+          style={{
+            border: '1px solid #e5e7eb',
+            borderRadius: 16,
+            padding: 24,
+            textAlign: 'center',
+          }}
+        >
+          <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0, marginBottom: 8 }}>
+            Спасибо за сообщение!
+          </h1>
+          <p style={{ color: '#6b7280', fontSize: 14, marginTop: 8 }}>
+            Мы с вами скоро свяжемся. Для более быстрого ответа или вопросов можете
+            воспользоваться WhatsApp или Instagram сообщениями.
+          </p>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: 12,
+              maxWidth: 420,
+              margin: '16px auto 0',
+            }}
+          >
+            <Link
+              href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
+              target="_blank"
+              style={{
+                border: '1px solid #e5e7eb',
+                borderRadius: 12,
+                padding: '12px 16px',
+                textAlign: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              Открыть WhatsApp
+            </Link>
+            <Link
+              href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK || '#'}
+              target="_blank"
+              style={{
+                border: '1px solid #e5e7eb',
+                borderRadius: 12,
+                padding: '12px 16px',
+                textAlign: 'center',
+                textDecoration: 'none',
+              }}
+            >
+              Открыть Instagram
+            </Link>
+          </div>
+        </section>
+      </main>
     );
   }
 
   return (
-    <section style={{ padding: '40px', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>{t('contact_title', 'Контактная страница')}</h1>
-      <p>{t('contact_description', 'Свяжитесь с нами')}</p>
+    <main style={{ margin: '0 auto', maxWidth: 1120, padding: '40px 16px' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 600, margin: 0 }}>Оставить заявку</h1>
+      <p style={{ color: '#6b7280', fontSize: 14, marginTop: 8 }}>
+        Расскажите о проекте — ответим в течение 24 часов.
+      </p>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gap: 24,
+          marginTop: 24,
+        }}
       >
-        <label>
-          {t('contact_form_name', 'Имя')}:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </label>
+        {/* Форма (слева) */}
+        <section
+          style={{
+            border: '1px solid #e5e7eb',
+            borderRadius: 16,
+            padding: 24,
+          }}
+        >
+          <form onSubmit={onSubmit} style={{ display: 'grid', gap: 16 }}>
+            <div style={{ display: 'grid', gap: 16, gridTemplateColumns: '1fr' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                  Имя *
+                </label>
+                <input
+                  name="name"
+                  required
+                  placeholder="Имя"
+                  value={formData.name}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 12,
+                    padding: '10px 12px',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                  E-mail *
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="you@email.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 12,
+                    padding: '10px 12px',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+            </div>
 
-        <label>
-          {t('contact_form_email', 'Email')}:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
+            <div style={{ display: 'grid', gap: 16, gridTemplateColumns: '1fr' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                  Телефон
+                </label>
+                <input
+                  name="phone"
+                  placeholder="+994 10 215 15 08"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 12,
+                    padding: '10px 12px',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                  Услуга
+                </label>
+                <select
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: 12,
+                    padding: '10px 12px',
+                    outline: 'none',
+                    background: 'white',
+                  }}
+                >
+                  <option value="">Выберите услугу</option>
+                  {serviceOptions.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
-        <label>
-          {t('contact_form_message', 'Сообщение')}:
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-          />
-        </label>
+            <div>
+              <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                Бюджет (AZN)
+              </label>
+              <select
+                name="budget"
+                value={formData.budget}
+                onChange={handleChange}
+                style={{
+                  width: '100%',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 12,
+                  padding: '10px 12px',
+                  outline: 'none',
+                  background: 'white',
+                }}
+              >
+                <option value="">Выберите диапазон</option>
+                {budgetOptions.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <button type="submit">{t('contact_form_submit', 'Отправить')}</button>
-      </form>
-    </section>
+            <div>
+              <label style={{ display: 'block', fontSize: 14, marginBottom: 6 }}>
+                Сообщение *
+              </label>
+              <textarea
+                name="message"
+                required
+                rows={6}
+                placeholder="Опишите задачу, сроки и пожелания…"
+                value={formData.message}
+                onChange={handleChange}
+                style={{
+                  width: '100%',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 12,
+                  padding: '10px 12px',
+                  outline: 'none',
+                  resize: 'vertical',
+                }}
+              />
+              <p style={{ color: '#6b7280', fontSize: 12, marginTop: 6 }}>
+                * Обязательные поля. Мы ответим в течение 24 часов.
+              </p>
+            </div>
+
+            {err && (
+              <p style={{ color: '#ef4444', fontSize: 14, margin: 0 }}>{err}</p>
+            )}
+
+            <button
+              disabled={submitting}
+              style={{
+                width: '100%',
+                border: 'none',
+                borderRadius: 12,
+                padding: '12px 16px',
+                background: '#111827',
+                color: 'white',
+                cursor: 'pointer',
+                opacity: submitting ? 0.7 : 1,
+              }}
+            >
+              {submitting ? 'Отправляем…' : 'Отправить сообщение'}
+            </button>
+          </form>
+        </section>
+
+        {/* Правая колонка (быстрая связь) */}
+        <aside
+          style={{
+            display: 'grid',
+            gap: 16,
+          }}
+        >
+          <div
+            style={{
+              border: '1px solid #e5e7eb',
+              borderRadius: 16,
+              padding: 24,
+            }}
+          >
+            <h2 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>
+              Контактная информация
+            </h2>
+            <ul style={{ marginTop: 16, padding: 0, listStyle: 'none', display: 'grid', gap: 12, fontSize: 14 }}>
+              <li>
+                <div style={{ fontWeight: 600 }}>Телефон</div>
+                <Link href="tel:+994102151508" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                  +994 10 215 15 08
+                </Link>
+                <div style={{ color: '#6b7280' }}>Звоните в рабочее время</div>
+              </li>
+              <li>
+                <div style={{ fontWeight: 600 }}>Email</div>
+                <Link href="mailto:info@aimarket.az" style={{ color: '#2563eb', textDecoration: 'none' }}>
+                  info@aimarket.az
+                </Link>
+                <div style={{ color: '#6b7280' }}>Отвечаем в течение 24 часов</div>
+              </li>
+              <li>
+                <div style={{ fontWeight: 600 }}>Адрес</div>
+                <div>Asug Ali 4, Şəhər Bağları kompleksi, Баку</div>
+                <div style={{ color: '#6b7280' }}>Можем встретиться лично</div>
+              </li>
+              <li>
+                <div style={{ fontWeight: 600 }}>Режим работы</div>
+                <div>Пн–Пт: 9:00–18:00</div>
+                <div style={{ color: '#6b7280' }}>По выходным — по договоренности</div>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            style={{
+              border: '1px solid #e5e7eb',
+              borderRadius: 16,
+              padding: 24,
+            }}
+          >
+            <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0 }}>Быстрая связь</h3>
+            <p style={{ color: '#6b7280', fontSize: 14, marginTop: 8 }}>
+              WhatsApp и Instagram — отвечаем 24/7.
+            </p>
+            <div style={{ display: 'grid', gap: 12, marginTop: 12 }}>
+              <Link
+                href={process.env.NEXT_PUBLIC_WHATSAPP_LINK || 'https://wa.me/994102151508'}
+                target="_blank"
+                style={{
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 12,
+                  padding: '12px 16px',
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                Написать в WhatsApp
+              </Link>
+              <Link
+                href={process.env.NEXT_PUBLIC_INSTAGRAM_LINK || '#'}
+                target="_blank"
+                style={{
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 12,
+                  padding: '12px 16px',
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                Написать в Instagram
+              </Link>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
   );
 }
