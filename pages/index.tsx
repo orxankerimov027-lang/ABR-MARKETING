@@ -9,34 +9,38 @@ export default function Home() {
         <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
-      {/* Глобальные переменные цвета */}
+      {/* Палитра */}
       <style>{`
         :root{
-          --coffee:#14100D;        /* очень тёмный кофейный */
-          --coffee-2:#1A1511;      /* чуть светлее для карточек */
-          --gold:#D4AF37;          /* основное золото */
-          --gold-2:#B8932F;        /* hover/active золото */
-          --muted:#CBBFAD;         /* вторичный текст */
-          --text:#E8E2D9;          /* обычный светлый текст */
+          --coffee:#020100;   /* очень тёмный кофейный */
+          --coffee-2:#0E0B09; /* чуть светлее для карточек */
+          --gold:#AC7C22;     /* основное золото */
+          --gold-2:#CBB17E;   /* светлое золото (hover/бордер) */
+          --muted:#D6CBB8;    /* вторичный текст */
+          --text:#EDE7DE;     /* светлый текст */
         }
       `}</style>
 
       <div className="min-h-screen bg-[var(--coffee)] text-[var(--text)] font-sans">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--coffee)]/90 backdrop-blur-md border-b border-white/5">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--coffee)]/95 backdrop-blur-md border-b border-white/5">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-            {/* ЛОГО — НЕ МЕНЯЕМ ЦВЕТ */}
-            <div className="text-xl sm:text-2xl font-extrabold tracking-wide text-blue-700">
+            {/* ЛОГО — теперь золотой */}
+            <div className="text-xl sm:text-2xl font-extrabold tracking-wide text-[var(--gold)]">
               AIMarket.AZ
             </div>
 
             <nav className="hidden md:flex items-center gap-8 text-sm font-semibold">
-              <a href="#" className="hover:text-[var(--gold)] transition">Главная</a>
-              <a href="#services" className="hover:text-[var(--gold)] transition">Услуги</a>
-              <a href="#portfolio" className="hover:text-[var(--gold)] transition">Портфолио</a>
-              <a href="#models" className="hover:text-[var(--gold)] transition">Модели</a>
-              <a href="#clients" className="hover:text-[var(--gold)] transition">Клиенты</a>
-              <a href="#contact" className="hover:text-[var(--gold)] transition">Контакты</a>
+              {[
+                ['#','Главная'],
+                ['#services','Услуги'],
+                ['#portfolio','Портфолио'],
+                ['#models','Модели'],
+                ['#clients','Клиенты'],
+                ['#contact','Контакты'],
+              ].map(([href,label])=>(
+                <a key={href} href={href} className="hover:text-[var(--gold)] transition">{label}</a>
+              ))}
             </nav>
 
             <div className="hidden md:flex items-center gap-3 text-xs">
@@ -63,8 +67,8 @@ export default function Home() {
                 className="mt-2 inline-block rounded-full
                            bg-[var(--gold)] text-[var(--coffee)]
                            px-4 sm:px-6 py-2 sm:py-3 font-semibold
-                           shadow-sm ring-1 ring-[var(--gold)]/40
-                           hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]/50
+                           shadow-sm ring-1 ring-[var(--gold-2)]
+                           hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]
                            transition"
               >
                 Оставить заявку
@@ -72,7 +76,7 @@ export default function Home() {
             </div>
 
             {/* Картинка */}
-            <div className="rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10">
+            <div className="rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 mt-5 sm:mt-7 md:mt-0">
               <img
                 src="https://i.ibb.co/dZDh2bf/image.png"
                 alt="Hero"
@@ -89,20 +93,15 @@ export default function Home() {
           </h2>
           <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
             {[
-              { icon: '💬', title: 'Чат-боты', text: 'Автоматизация продаж и поддержки через Instagram, WhatsApp и Telegram' },
-              { icon: '🎥', title: 'Видео-контент', text: 'Reels, Instagram, TikTok, YouTube, реклама и съёмки под ключ' },
-              { icon: '👥', title: 'Модели', text: 'Кастинги, база моделей, профессиональные съёмки' },
-              { icon: '📢', title: 'Реклама', text: 'Таргет, охваты, аналитика, результат' },
-            ].map((s, i) => (
-              <div
-                key={i}
-                className="bg-[var(--coffee-2)]/95 border border-white/5
-                           rounded-2xl p-6 md:p-8 text-center
-                           hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)]
-                           hover:border-white/10 transition
-                           min-h-[220px] md:min-h-[260px]
-                           flex flex-col items-center"
-              >
+              { icon:'💬', title:'Чат-боты', text:'Автоматизация продаж и поддержки через Instagram, WhatsApp и Telegram' },
+              { icon:'🎥', title:'Видео-контент', text:'Reels, Instagram, TikTok, YouTube, реклама и съёмки под ключ' },
+              { icon:'👥', title:'Модели', text:'Кастинги, база моделей, профессиональные съёмки' },
+              { icon:'📢', title:'Реклама', text:'Таргет, охваты, аналитика, результат' },
+            ].map((s,i)=>(
+              <div key={i}
+                   className="bg-[var(--coffee-2)]/95 border border-white/5 rounded-2xl p-6 md:p-8 text-center
+                              hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)] hover:border-white/10 transition
+                              min-h-[220px] md:min-h-[260px] flex flex-col items-center">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl mb-4
                                 bg-[var(--gold)] text-[var(--coffee)] text-xl font-bold">
                   {s.icon}
@@ -116,9 +115,7 @@ export default function Home() {
 
         {/* Portfolio */}
         <section id="portfolio" className="py-14 md:py-16 px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">
-            Портфолио
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">Портфолио</h2>
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
             <img src="https://images.unsplash.com/photo-1612548401945-9e75a63f0c1d?auto=format&fit=crop&w=800&q=80" alt="Portfolio 1" className="rounded-xl ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:scale-[1.02] transition" />
             <img src="https://images.unsplash.com/photo-1607083206173-611c7d47a3f1?auto=format&fit=crop&w=800&q=80" alt="Portfolio 2" className="rounded-xl ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:scale-[1.02] transition" />
@@ -128,9 +125,7 @@ export default function Home() {
 
         {/* Clients */}
         <section id="clients" className="py-14 md:py-16 px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">
-            Наши клиенты
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">Наши клиенты</h2>
           <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
             {[
               { href:'https://lcwaikiki.com', img:'https://i.ibb.co/N68vFdvd/lc-waikiki-seeklogo.png', name:'LC Waikiki' },
@@ -160,8 +155,8 @@ export default function Home() {
               className="inline-block rounded-full
                          bg-[var(--gold)] text-[var(--coffee)]
                          px-6 py-3 font-semibold shadow-sm
-                         ring-1 ring-[var(--gold)]/40
-                         hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]/50
+                         ring-1 ring-[var(--gold-2)]
+                         hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]
                          transition"
             >
               Заполнить форму
