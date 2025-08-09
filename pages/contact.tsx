@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
