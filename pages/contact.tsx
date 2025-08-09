@@ -1,5 +1,4 @@
-export const runtime = 'experimental-edge';
-
+export const config = { runtime: 'nodejs' };
 
 import React, { useState } from 'react';
 // Link не нужен, т.к. на этой странице только внешние ссылки
@@ -14,6 +13,7 @@ export async function getStaticProps({ locale }: { locale: string }) {
     },
   };
 }
+
 
 const budgetOptions = [
   { label: '₼100 – ₼500', value: '100-500' },

@@ -1,4 +1,4 @@
-export const runtime = 'experimental-edge';
+export const config = { runtime: 'nodejs' };
 
 import React from 'react';
 import { useTranslation } from 'next-i18next';
