@@ -9,23 +9,31 @@ export default function Home() {
         <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
-      {/* Палитра */}
+      {/* Гибридная премиум-палитра (2025): тёмный тренд + золото */}
       <style>{`
         :root{
-          --coffee:#020100;   /* очень тёмный кофейный */
-          --coffee-2:#0E0B09; /* чуть светлее для карточек */
-          --gold:#AC7C22;     /* основное золото */
-          --gold-2:#CBB17E;   /* светлое золото (hover/бордер) */
-          --muted:#D6CBB8;    /* вторичный текст */
-          --text:#EDE7DE;     /* светлый текст */
+          --bg-start:#0B0B0E;   /* угольно-серый */
+          --bg-end:#0B1830;     /* глубокий синий для трендового оттенка */
+          --card:#121318;       /* карточки/поверхности */
+          --gold:#AC7C22;       /* золото (акцент) */
+          --gold-2:#CBB17E;     /* светлое золото (hover/бордер) */
+          --text:#EAEAF0;       /* основной светлый текст */
+          --muted:#B9C0CF;      /* вторичный текст */
+        }
+        /* мягкая подсветка hero */
+        .hero-glow{ 
+          background:
+            radial-gradient(800px 300px at 20% -10%, rgba(203,177,126,0.25) 0%, rgba(203,177,126,0) 60%),
+            radial-gradient(700px 300px at 95% 0%, rgba(26,153,255,0.16) 0%, rgba(26,153,255,0) 60%);
         }
       `}</style>
 
-      <div className="min-h-screen bg-[var(--coffee)] text-[var(--text)] font-sans">
+      <div className="min-h-screen text-[var(--text)]"
+           style={{background:`linear-gradient(180deg, var(--bg-start), var(--bg-end))`}}>
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--coffee)]/95 backdrop-blur-md border-b border-white/5">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg-start)]/75 backdrop-blur-md border-b border-white/10">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-            {/* ЛОГО — теперь золотой */}
+            {/* ЛОГО — золотой */}
             <div className="text-xl sm:text-2xl font-extrabold tracking-wide text-[var(--gold)]">
               AIMarket.AZ
             </div>
@@ -52,7 +60,7 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16">
+        <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16 hero-glow">
           <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 md:gap-10 items-start">
             {/* Текст + кнопка */}
             <div>
@@ -65,7 +73,7 @@ export default function Home() {
               <a
                 href="#contact"
                 className="mt-2 inline-block rounded-full
-                           bg-[var(--gold)] text-[var(--coffee)]
+                           bg-[var(--gold)] text-black
                            px-4 sm:px-6 py-2 sm:py-3 font-semibold
                            shadow-sm ring-1 ring-[var(--gold-2)]
                            hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]
@@ -99,11 +107,12 @@ export default function Home() {
               { icon:'📢', title:'Реклама', text:'Таргет, охваты, аналитика, результат' },
             ].map((s,i)=>(
               <div key={i}
-                   className="bg-[var(--coffee-2)]/95 border border-white/5 rounded-2xl p-6 md:p-8 text-center
-                              hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)] hover:border-white/10 transition
+                   className="bg-[var(--card)]/95 border border-white/10 rounded-2xl p-6 md:p-8 text-center
+                              hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)]
+                              hover:border-[var(--gold-2)]/50 transition
                               min-h-[220px] md:min-h-[260px] flex flex-col items-center">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl mb-4
-                                bg-[var(--gold)] text-[var(--coffee)] text-xl font-bold">
+                                bg-[var(--gold)] text-black text-xl font-bold">
                   {s.icon}
                 </div>
                 <h3 className="text-xl md:text-2xl font-semibold mb-2 text-[var(--gold)]">{s.title}</h3>
@@ -153,7 +162,7 @@ export default function Home() {
             <a
               href="#"
               className="inline-block rounded-full
-                         bg-[var(--gold)] text-[var(--coffee)]
+                         bg-[var(--gold)] text-black
                          px-6 py-3 font-semibold shadow-sm
                          ring-1 ring-[var(--gold-2)]
                          hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]
