@@ -29,19 +29,19 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="pt-16 sm:pt-20 md:pt-28 pb-10 md:pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
+        <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between max-w-6xl mx-auto">
-            {/* Текст */}
+            {/* Текст + кнопка */}
             <div className="md:w-1/2 text-center md:text-left md:pt-10">
-              <h1 className="text-[22px] sm:text-3xl md:text-4xl font-extrabold mb-2 sm:mb-3 md:whitespace-nowrap">
+              <h1 className="text-[22px] sm:text-3xl md:text-4xl font-extrabold leading-tight">
                 Прокачай свой бренд с нами
               </h1>
-              <p className="text-[15px] sm:text-lg md:text-xl mb-3 sm:mb-4">
+              <p className="mt-2 text-[15px] sm:text-lg md:text-xl">
                 Видео, модели, чат-боты и автоматизация — всё в одном месте
               </p>
               <a
                 href="#contact"
-                className="inline-block bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-purple-700 transition"
+                className="mt-2 inline-block bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-purple-700 transition"
               >
                 Оставить заявку
               </a>
