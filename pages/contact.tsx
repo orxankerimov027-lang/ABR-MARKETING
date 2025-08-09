@@ -1,3 +1,9 @@
+export const runtime = 'edge';
+
+import React from 'react';
+// остальной код...
+
+
 import React, { useState } from 'react';
 // Link не нужен, т.к. на этой странице только внешние ссылки
 // import Link from 'next/link';

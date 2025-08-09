@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import React, { useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
