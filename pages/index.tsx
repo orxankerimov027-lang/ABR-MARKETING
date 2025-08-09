@@ -29,12 +29,29 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="pt-28 pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100 text-center">
-          <h1 className="text-4xl font-extrabold mb-4">Прокачай свой бренд с нами</h1>
-          <p className="mb-6 text-lg">Видео, модели, чат-боты и автоматизация — всё в одном месте</p>
-          <a href="#contact" className="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition">Оставить заявку</a>
-          <div className="mt-10 max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
-            <img src="https://i.ibb.co/dZDh2bf/image.png" alt="Hero" className="w-full h-64 object-cover" />
+        <section className="pt-28 pb-16 px-4 bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-100">
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-between max-w-6xl mx-auto">
+            <div className="md:w-1/2 text-left md:pt-10">
+              <h1 className="text-4xl font-extrabold mb-4 whitespace-nowrap">
+                Прокачай свой бренд с нами
+              </h1>
+              <p className="mb-6 text-lg">
+                Видео, модели, чат-боты и автоматизация — всё в одном месте
+              </p>
+              <a
+                href="#contact"
+                className="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition"
+              >
+                Оставить заявку
+              </a>
+            </div>
+            <div className="md:w-1/2 mt-8 md:mt-0 rounded-xl overflow-hidden shadow-lg">
+              <img
+                src="https://i.ibb.co/dZDh2bf/image.png"
+                alt="Hero"
+                className="w-full h-64 md:h-80 object-cover"
+              />
+            </div>
           </div>
         </section>
 
