@@ -1,4 +1,5 @@
-export const runtime = 'experimental-edge';
+// ✅ Рендерить на Node.js, чтобы работал next-i18next
+export const config = { runtime: 'nodejs' };
 
 import React from 'react';
 import { useTranslation } from 'next-i18next';
@@ -58,8 +59,6 @@ export async function getStaticProps({ locale }: { locale: string }) {
     };
   } catch (error) {
     console.error('Ошибка загрузки переводов:', error);
-    return {
-      props: {},
-    };
+    return { props: {} };
   }
 }

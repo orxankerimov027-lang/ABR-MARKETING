@@ -1,38 +1,85 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { Resend } from 'resend';
+// pages/api/contact.ts
+export const config = { runtime: 'edge' };
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const json = (data: any, init?: ResponseInit) =>
+  new Response(JSON.stringify(data), {
+    headers: { 'Content-Type': 'application/json' },
+    ...init,
+  });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: Request) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return json({ error: 'Method not allowed' }, { status: 405 });
   }
 
   try {
-    const { name, email, phone, service, budget, message } = req.body || {};
+    const { name, email, phone, service, budget, message } = await req.json();
 
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Заполните имя, email и сообщение' });
+      return json({ error: 'Заполните имя, email и сообщение' }, { status: 400 });
     }
 
-    await resend.emails.send({
-      from: 'AI Market <info@aimarket.az>', // домен должен быть подтверждён в Resend
-      to: process.env.TO_EMAIL as string,
-      subject: 'Новая заявка с сайта',
-      html: `
-        <h2>Новая заявка</h2>
-        <p><b>Имя:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Телефон:</b> ${phone || '-'}</p>
-        <p><b>Услуга:</b> ${service || '-'}</p>
-        <p><b>Бюджет:</b> ${budget || '-'}</p>
-        <p><b>Сообщение:</b><br/>${(message || '').replace(/\n/g, '<br/>')}</p>
-      `,
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    const TO_EMAIL = process.env.TO_EMAIL;
+    const MAIL_FROM = process.env.MAIL_FROM || 'AI Market <info@aimarket.az>';
+
+    // Dev-fallback: если нет ключей — не падаем, а отвечаем успехом
+    const isProdReady = !!(RESEND_API_KEY && TO_EMAIL);
+    if (!isProdReady) {
+      return json({
+        ok: true,
+        dev: true,
+        note:
+          'Resend не сконфигурирован. В .env.local добавьте RESEND_API_KEY, TO_EMAIL и MAIL_FROM, затем перезапустите dev.',
+        echo: { name, email, phone, service, budget, message },
+      });
+    }
+
+    // Отправка через REST API Resend (совместимо с Edge/Workers)
+    const payload = {
+      from: MAIL_FROM,
+      to: [TO_EMAIL],
+      subject: `Новая заявка с сайта — ${name}`,
+      reply_to: email,
+      text: [
+        `Имя: ${name}`,
+        `Email: ${email}`,
+        phone ? `Телефон: ${phone}` : null,
+        service ? `Услуга: ${service}` : null,
+        budget ? `Бюджет: ${budget}` : null,
+        '',
+        'Сообщение:',
+        message,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    };
+
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
     });
 
-    return res.status(200).json({ ok: true });
-  } catch (err: any) {
-    console.error('RESEND ERROR:', err?.message || err);
-    return res.status(500).json({ error: 'Ошибка при отправке письма' });
+    if (!r.ok) {
+      const errText = await r.text().catch(() => '');
+      return json(
+        {
+          ok: false,
+          error: 'Не удалось отправить письмо через Resend',
+          status: r.status,
+          body: errText,
+        },
+        { status: 502 }
+      );
+    }
+
+    const data = await r.json().catch(() => ({}));
+    return json({ ok: true, id: data?.id || null });
+  } catch (e: any) {
+    return json({ error: 'Server error', details: String(e?.message || e) }, { status: 500 });
   }
 }
