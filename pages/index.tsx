@@ -9,31 +9,33 @@ export default function Home() {
         <script src="https://cdn.tailwindcss.com"></script>
       </Head>
 
-      {/* Гибридная премиум-палитра (2025): тёмный тренд + золото */}
+      {/* Палитра гибрид (светлый фон + золото) */}
       <style>{`
         :root{
-          --bg-start:#0B0B0E;   /* угольно-серый */
-          --bg-end:#0B1830;     /* глубокий синий для трендового оттенка */
-          --card:#121318;       /* карточки/поверхности */
-          --gold:#AC7C22;       /* золото (акцент) */
-          --gold-2:#CBB17E;     /* светлое золото (hover/бордер) */
-          --text:#EAEAF0;       /* основной светлый текст */
-          --muted:#B9C0CF;      /* вторичный текст */
+          --base:#FFF7EA;      /* тёплая база */
+          --text:#22232A;      /* основной текст на светлом */
+          --muted:#4B5563;     /* вторичный текст */
+          --card:#FFFFFF;      /* карточки/плашки */
+          --gold:#C9A44C;      /* акцентное золото */
+          --gold-2:#E3C983;    /* светлое золото (hover/бордер) */
+          --ring:rgba(0,0,0,.06);
         }
-        /* мягкая подсветка hero */
-        .hero-glow{ 
+        /* Пастельный градиент как в правом превью */
+        .pastel-bg{
           background:
-            radial-gradient(800px 300px at 20% -10%, rgba(203,177,126,0.25) 0%, rgba(203,177,126,0) 60%),
-            radial-gradient(700px 300px at 95% 0%, rgba(26,153,255,0.16) 0%, rgba(26,153,255,0) 60%);
+            radial-gradient(900px 380px at 15% -10%, rgba(201,164,76,0.22) 0%, rgba(201,164,76,0) 60%),
+            radial-gradient(800px 360px at 90% 0%, rgba(255,246,207,0.65) 0%, rgba(255,246,207,0) 60%),
+            radial-gradient(700px 300px at 30% 60%, rgba(246,233,255,0.55) 0%, rgba(246,233,255,0) 60%),
+            radial-gradient(700px 260px at 85% 65%, rgba(255,240,220,0.55) 0%, rgba(255,240,220,0) 60%),
+            var(--base);
         }
       `}</style>
 
-      <div className="min-h-screen text-[var(--text)]"
-           style={{background:`linear-gradient(180deg, var(--bg-start), var(--bg-end))`}}>
+      <div className="min-h-screen bg-[var(--base)] text-[var(--text)] font-sans">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg-start)]/75 backdrop-blur-md border-b border-white/10">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--base)]/85 backdrop-blur-md border-b border-[var(--ring)]">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-            {/* ЛОГО — золотой */}
+            {/* Логотип в золоте */}
             <div className="text-xl sm:text-2xl font-extrabold tracking-wide text-[var(--gold)]">
               AIMarket.AZ
             </div>
@@ -59,22 +61,22 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Hero */}
-        <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16 hero-glow">
+        {/* Hero (фон как справа на изображении) */}
+        <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16 pastel-bg">
           <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 md:gap-10 items-start">
             {/* Текст + кнопка */}
             <div>
-              <h1 className="text-[22px] sm:text-3xl md:text-5xl font-extrabold leading-tight text-[var(--gold)]">
+              <h1 className="text-[26px] sm:text-4xl md:text-5xl font-extrabold leading-tight text-[var(--gold)]">
                 Прокачай свой бренд с нами
               </h1>
-              <p className="mt-2 text-[15px] sm:text-lg md:text-xl text-[var(--muted)]">
+              <p className="mt-3 text-[16px] sm:text-lg md:text-xl text-[var(--muted)]">
                 Видео, модели, чат-боты и автоматизация — всё в одном месте
               </p>
               <a
                 href="#contact"
-                className="mt-2 inline-block rounded-full
+                className="mt-3 inline-block rounded-full
                            bg-[var(--gold)] text-black
-                           px-4 sm:px-6 py-2 sm:py-3 font-semibold
+                           px-5 sm:px-6 py-2.5 sm:py-3 font-semibold
                            shadow-sm ring-1 ring-[var(--gold-2)]
                            hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)]
                            transition"
@@ -83,12 +85,12 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Картинка */}
-            <div className="rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 mt-5 sm:mt-7 md:mt-0">
+            {/* Изображение */}
+            <div className="rounded-xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.15)] ring-1 ring-[var(--ring)] mt-5 sm:mt-7 md:mt-0">
               <img
                 src="https://i.ibb.co/dZDh2bf/image.png"
                 alt="Hero"
-                className="w-full h-44 sm:h-60 md:h-80 object-cover"
+                className="w-full h-48 sm:h-60 md:h-80 object-cover"
               />
             </div>
           </div>
@@ -107,9 +109,9 @@ export default function Home() {
               { icon:'📢', title:'Реклама', text:'Таргет, охваты, аналитика, результат' },
             ].map((s,i)=>(
               <div key={i}
-                   className="bg-[var(--card)]/95 border border-white/10 rounded-2xl p-6 md:p-8 text-center
-                              hover:shadow-[0_10px_40px_rgba(0,0,0,0.45)]
-                              hover:border-[var(--gold-2)]/50 transition
+                   className="bg-[var(--card)] border border-[var(--ring)] rounded-2xl p-6 md:p-8 text-center
+                              hover:shadow-[0_10px_40px_rgba(0,0,0,0.10)]
+                              hover:border-[var(--gold-2)]/60 transition
                               min-h-[220px] md:min-h-[260px] flex flex-col items-center">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl mb-4
                                 bg-[var(--gold)] text-black text-xl font-bold">
@@ -126,9 +128,9 @@ export default function Home() {
         <section id="portfolio" className="py-14 md:py-16 px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">Портфолио</h2>
           <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-            <img src="https://images.unsplash.com/photo-1612548401945-9e75a63f0c1d?auto=format&fit=crop&w=800&q=80" alt="Portfolio 1" className="rounded-xl ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:scale-[1.02] transition" />
-            <img src="https://images.unsplash.com/photo-1607083206173-611c7d47a3f1?auto=format&fit=crop&w=800&q=80" alt="Portfolio 2" className="rounded-xl ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:scale-[1.02] transition" />
-            <img src="https://images.unsplash.com/photo-1621939514731-4e3b33c016b6?auto=format&fit=crop&w=800&q=80" alt="Portfolio 3" className="rounded-xl ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:scale-[1.02] transition" />
+            <img src="https://images.unsplash.com/photo-1612548401945-9e75a63f0c1d?auto=format&fit=crop&w=800&q=80" alt="Portfolio 1" className="rounded-xl ring-1 ring-[var(--ring)] shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:scale-[1.02] transition" />
+            <img src="https://images.unsplash.com/photo-1607083206173-611c7d47a3f1?auto=format&fit=crop&w=800&q=80" alt="Portfolio 2" className="rounded-xl ring-1 ring-[var(--ring)] shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:scale-[1.02] transition" />
+            <img src="https://images.unsplash.com/photo-1621939514731-4e3b33c016b6?auto=format&fit=crop&w=800&q=80" alt="Portfolio 3" className="rounded-xl ring-1 ring-[var(--ring)] shadow-[0_8px_30px_rgba(0,0,0,0.1)] hover:scale-[1.02] transition" />
           </div>
         </section>
 
@@ -174,7 +176,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/10 text-center py-6 text-xs text-[var(--muted)]">
+        <footer className="border-t border-[var(--ring)] text-center py-6 text-xs text-[var(--muted)]">
           © 2025 AIMarket.AZ — Все права защищены
         </footer>
       </div>
