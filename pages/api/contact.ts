@@ -21,43 +21,65 @@ export default async function handler(req: Request) {
 
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     const TO_EMAIL = process.env.TO_EMAIL;
+    const MAIL_FROM = process.env.MAIL_FROM || 'AI Market <info@aimarket.az>';
 
-    if (!RESEND_API_KEY || !TO_EMAIL) {
-      // Нет переменных окружения на проде
-      return json({ error: 'Email сервис не настроен' }, { status: 500 });
+    // Dev-fallback: если нет ключей — не падаем, а отвечаем успехом
+    const isProdReady = !!(RESEND_API_KEY && TO_EMAIL);
+    if (!isProdReady) {
+      return json({
+        ok: true,
+        dev: true,
+        note:
+          'Resend не сконфигурирован. В .env.local добавьте RESEND_API_KEY, TO_EMAIL и MAIL_FROM, затем перезапустите dev.',
+        echo: { name, email, phone, service, budget, message },
+      });
     }
 
-    // Отправляем письмо через REST API Resend (это работает в Workers)
+    // Отправка через REST API Resend (совместимо с Edge/Workers)
+    const payload = {
+      from: MAIL_FROM,
+      to: [TO_EMAIL],
+      subject: `Новая заявка с сайта — ${name}`,
+      reply_to: email,
+      text: [
+        `Имя: ${name}`,
+        `Email: ${email}`,
+        phone ? `Телефон: ${phone}` : null,
+        service ? `Услуга: ${service}` : null,
+        budget ? `Бюджет: ${budget}` : null,
+        '',
+        'Сообщение:',
+        message,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    };
+
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        from: 'AI Market <info@aimarket.az>', // домен должен быть подтвержден в Resend
-        to: [TO_EMAIL],
-        subject: 'Новая заявка с сайта',
-        html: `
-          <h2>Новая заявка</h2>
-          <p><b>Имя:</b> ${name}</p>
-          <p><b>Email:</b> ${email}</p>
-          <p><b>Телефон:</b> ${phone || '-'}</p>
-          <p><b>Услуга:</b> ${service || '-'}</p>
-          <p><b>Бюджет:</b> ${budget || '-'}</p>
-          <p><b>Сообщение:</b><br/>${(message || '').replace(/\n/g, '<br/>')}</p>
-        `,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!r.ok) {
       const errText = await r.text().catch(() => '');
-      return json({ error: `Ошибка Resend (${r.status}): ${errText}` }, { status: 502 });
+      return json(
+        {
+          ok: false,
+          error: 'Не удалось отправить письмо через Resend',
+          status: r.status,
+          body: errText,
+        },
+        { status: 502 }
+      );
     }
 
-    const data = await r.json();
-    return json({ ok: true, id: data?.id || null }, { status: 200 });
+    const data = await r.json().catch(() => ({}));
+    return json({ ok: true, id: data?.id || null });
   } catch (e: any) {
-    return json({ error: e?.message || 'Ошибка при отправке письма' }, { status: 500 });
+    return json({ error: 'Server error', details: String(e?.message || e) }, { status: 500 });
   }
 }
