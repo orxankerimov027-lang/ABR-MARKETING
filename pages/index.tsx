@@ -1,4 +1,4 @@
-import Head from 'next/head';
+﻿import Head from 'next/head';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useTranslation} from 'next-i18next';
@@ -65,7 +65,7 @@ export default function Home() {
         <section className="pt-2 sm:pt-3 md:pt-28 pb-8 md:pb-16 pastel-bg">
           <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 md:gap-10 items-start">
             <div>
-              <h1 className="text-[26px] sm:text-4xl md:text-5xl font-extrabold leading-tight text-[var(--gold)]">
+              <h1 className="text-2xl md:text-4xl font-bold text-gray-800 leading-tight break-words text-center md:text-left">
                 {t('hero_title')}
               </h1>
               <p className="mt-3 text-[16px] sm:text-lg md:text-xl text-[var(--muted)]">{t('hero_subtitle')}</p>
@@ -83,10 +83,10 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 md:mb-10 text-[var(--gold)]">{t('services_title')}</h2>
           <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
             {[
-              { icon:'💬', title: t('service_chatbots_title'), text: t('service_chatbots_desc') },
-              { icon:'🎥', title: t('service_video_title'),    text: t('service_video_desc') },
-              { icon:'👥', title: t('service_models_title'),   text: t('service_models_desc') },
-              { icon:'📢', title: t('service_ads_title'),      text: t('service_ads_desc') }
+              { icon:'рџ’¬', title: t('service_chatbots_title'), text: t('service_chatbots_desc') },
+              { icon:'рџЋҐ', title: t('service_video_title'),    text: t('service_video_desc') },
+              { icon:'рџ‘Ґ', title: t('service_models_title'),   text: t('service_models_desc') },
+              { icon:'рџ“ў', title: t('service_ads_title'),      text: t('service_ads_desc') }
             ].map((s,i)=>(
               <div key={i} className="bg-[var(--card)] border border-[var(--ring)] rounded-2xl p-6 md:p-8 text-center hover:shadow-[0_10px_40px_rgba(0,0,0,0.10)] hover:border-[var(--gold-2)]/60 transition min-h-[220px] md:min-h-[260px] flex flex-col items-center">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl mb-4 bg-[var(--gold)] text-black text-xl font-bold">{s.icon}</div>
@@ -127,8 +127,8 @@ export default function Home() {
         <section id="contact" className="py-14 md:py-16 px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-[var(--gold)]">{t('contact_info_title')}</h2>
           <p className="text-center mb-6 text-[var(--muted)]">
-            📞 WhatsApp: <a href={WHATSAPP} className="underline hover:text-[var(--gold)]">{t('contact_info_whatsapp')}</a><br />
-            📸 Instagram: <a href={INSTAGRAM} className="underline hover:text-[var(--gold)]">{t('contact_info_instagram')}</a>
+            рџ“ћ WhatsApp: <a href={WHATSAPP} className="underline hover:text-[var(--gold)]">{t('contact_info_whatsapp')}</a><br />
+            рџ“ё Instagram: <a href={INSTAGRAM} className="underline hover:text-[var(--gold)]">{t('contact_info_instagram')}</a>
           </p>
           <div className="text-center">
             <Link href="/contact" locale={locale} className="inline-block rounded-full bg-[var(--gold)] text-black px-6 py-3 font-semibold shadow-sm ring-1 ring-[var(--gold-2)] hover:bg-[var(--gold-2)] hover:ring-[var(--gold-2)] transition">
@@ -138,9 +138,10 @@ export default function Home() {
         </section>
 
         <footer className="border-t border-[var(--ring)] text-center py-6 text-xs text-[var(--muted)]">
-          © 2025 AIMarket.AZ — {t('rights')}
+          В© 2025 AIMarket.AZ вЂ” {t('rights')}
         </footer>
       </div>
     </>
   );
 }
+
