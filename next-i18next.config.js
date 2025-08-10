@@ -1,11 +1,8 @@
 /** @type {import('next-i18next').UserConfig} */
 module.exports = {
   i18n: {
-    locales: ['az', 'ru', 'en'],
-    defaultLocale: 'ru'
+    defaultLocale: 'ru',
+    locales: ['ru', 'az', 'en']
   },
-  reloadOnPrerender: false,
-  fallbackLng: 'ru',
-  ns: ['common'],
-  defaultNS: 'common',
+  reloadOnPrerender: process.env.NODE_ENV === 'development'
 };
