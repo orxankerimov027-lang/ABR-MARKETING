@@ -1,6 +1,4 @@
 // prisma/schema.prisma
-// Базовая схема под PostgreSQL. Если у тебя уже есть готовые поля — позже дополним.
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,8 +12,8 @@ model Brand {
   id        String    @id @default(cuid())
   slug      String    @unique
   name      String
-  description String? 
-  logoUrl   String?   // /public/logos/... или внешний URL
+  description String?
+  logoUrl   String?
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -44,9 +42,7 @@ model Product {
   brandId     String?
   brand       Brand?         @relation(fields: [brandId], references: [id])
 
-  // многие-ко-многим с категориями
   categories  Category[]     @relation("CategoryProducts")
-
   images      ProductImage[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
