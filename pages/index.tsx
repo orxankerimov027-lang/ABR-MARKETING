@@ -1,5 +1,5 @@
-﻿generator client {
-  provider = "prisma-client-js"
+﻿export default function Home() {
+  return <h1>Главная страница</h1>;
 }
 
 datasource db {
